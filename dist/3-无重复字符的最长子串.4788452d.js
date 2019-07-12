@@ -117,75 +117,60 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"2-双数相加.js":[function(require,module,exports) {
-// 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
-// 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
-// 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
-// 示例：
-// 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
-// 输出：7 -> 0 -> 8
-// 原因：342 + 465 = 807
+})({"3-无重复字符的最长子串.js":[function(require,module,exports) {
+// 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+// 示例 1:
+// 输入: "abcabcbb"
+// 输出: 3 
+// 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+// 示例 2:
+// 输入: "bbbbb"
+// 输出: 1
+// 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+// 示例 3:
+// 输入: "pwwkew"
+// 输出: 3
+// 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+//      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
 // 来源：力扣（LeetCode）
-// 链接：https://leetcode-cn.com/problems/add-two-numbers
+// 链接：https://leetcode-cn.com/problems/longest-substring-without-repeating-characters
 // 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-function ListNode(val) {
-  this.val = val;
-  this.next = null;
-}
+
 /**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
+ * @param {string} s
+ * @return {number}
  */
+var lengthOfLongestSubstring = function lengthOfLongestSubstring(s) {
+  if (typeof s !== 'string') return 'error parameter';
+  var max = 0;
+  var first = 0;
+  var index = false;
+  var str = '';
 
+  for (var i = 0, len = s.length; i < len; i++) {
+    index = s.slice(first, i).indexOf(s[i]);
 
-var addTwoNumbers = function addTwoNumbers(l1, l2) {
-  console.log('l1', l1);
-
-  var listToStr = function listToStr(list) {
-    var str = '';
-    var val = '';
-
-    while (list) {
-      val = list.val;
-      list = list.next || null;
-      str += val;
+    if (index > -1) {
+      first = i + first + 1;
+    } else {
+      if (max <= i - first + 1) {
+        str = s.slice(first, i + 1);
+        max = i - first + 1;
+      }
     }
+  }
 
-    return str.split('').reverse().join('');
+  return {
+    max: max,
+    str: str
   };
-
-  var strToList = function strToList(str) {
-    var arr = str.split('');
-    var listNode = new ListNode(arr.shift());
-    return arr.reduce(function (result, item) {
-      var ln = new ListNode(item);
-      ln.next = result;
-      return ln;
-    }, listNode);
-  };
-
-  var add = function add(str1, str2) {
-    var result = '';
-    var temp = 0;
-    str1 = str1.split('');
-    str2 = str2.split('');
-
-    while (str1.length || str2.length || temp) {
-      temp += ~~str1.pop() + ~~str2.pop();
-      result = temp % 10 + result;
-      temp = temp > 9;
-    }
-
-    return result;
-  };
-
-  var total = add(listToStr(l1), listToStr(l2));
-  return strToList(total);
 };
 
 console.time();
-console.log('addTwoNumbers', addTwoNumbers(new ListNode(342), new ListNode(564)));
+console.log(lengthOfLongestSubstring('abcdabcbb'));
+console.timeEnd();
+console.time();
+console.log(lengthOfLongestSubstring('abacdabcbb'));
 console.timeEnd();
 },{}],"../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -390,5 +375,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js","2-双数相加.js"], null)
-//# sourceMappingURL=/2-双数相加.51e52d4b.js.map
+},{}]},{},["../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js","3-无重复字符的最长子串.js"], null)
+//# sourceMappingURL=/3-无重复字符的最长子串.4788452d.js.map
