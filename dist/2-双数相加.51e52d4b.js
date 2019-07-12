@@ -117,122 +117,75 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"1-双数之和.js":[function(require,module,exports) {
-// 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
-// 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
-// 示例:
-// 给定 nums = [2, 7, 11, 15], target = 9
-// 因为 nums[0] + nums[1] = 2 + 7 = 9
-// 所以返回 [0, 1]
+})({"2-双数相加.js":[function(require,module,exports) {
+// 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+// 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+// 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+// 示例：
+// 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+// 输出：7 -> 0 -> 8
+// 原因：342 + 465 = 807
 // 来源：力扣（LeetCode）
-// 链接：https://leetcode-cn.com/problems/two-sum
+// 链接：https://leetcode-cn.com/problems/add-two-numbers
 // 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-
+function ListNode(val) {
+  this.val = val;
+  this.next = null;
+}
 /**
- * 时间复杂度 O(n^2)
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- * default: 6.890ms - 7.341ms
- */
-var twoSum = function twoSum(nums, target) {
-  var arr = nums;
-  var arrs = new Array();
-
-  for (var i = 0, len = arr.length - 1; i < len; i++) {
-    for (var j = 0, _len = arr.length; j < _len; j++) {
-      if (arr[i] + arr[j] === target) {
-        arrs.push(i, j);
-        return arrs;
-      }
-    }
-  }
-};
-/**
- * 时间复杂度 O(n*2)
- * @param {*} nums 
- * @param {*} target 
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
  */
 
 
-var twoSumMap = function twoSumMap(nums, target) {
-  if (Object.prototype.toString.call(nums) !== '[object Array]' || typeof target !== 'number') {
-    return;
-  } // let arr = new Set(nums);
+var addTwoNumbers = function addTwoNumbers(l1, l2) {
+  console.log('l1', l1);
 
+  var listToStr = function listToStr(list) {
+    var str = '';
+    var val = '';
 
-  var arrMap = new Map();
-  var len = nums.length;
-
-  for (var i = 0; i < len; i++) {
-    arrMap.set(nums[i], i);
-  }
-
-  var result = null;
-  var current = null;
-
-  for (var _i = 0; _i < len; _i++) {
-    result = target - nums[_i];
-    current = arrMap.get(result);
-
-    if (arrMap.has(result) && current !== _i) {
-      return [_i, current];
-    }
-  }
-};
-
-var twoSumSave = function twoSumSave(nums, target) {
-  if (Object.prototype.toString.call(nums) !== '[object Array]' || typeof target !== 'number') {
-    return;
-  }
-
-  var json = {};
-  var current = null;
-  var checkNum = null;
-
-  for (var i = 0, len = nums.length; i < len; i++) {
-    current = nums[i];
-    checkNum = json[target - current];
-
-    if (checkNum >= 0) {
-      return [checkNum, i];
+    while (list) {
+      val = list.val;
+      list = list.next || null;
+      str += val;
     }
 
-    json[current] = i;
-  }
-};
+    return str.split('').reverse().join('');
+  };
 
-var twoSumRecursion = function twoSumRecursion(nums, target) {
-  var i = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-  var maps = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-  var map = maps;
-  var current = nums[i];
+  var strToList = function strToList(str) {
+    var arr = str.split('');
+    var listNode = new ListNode(arr.shift());
+    return arr.reduce(function (result, item) {
+      var ln = new ListNode(item);
+      ln.next = result;
+      return ln;
+    }, listNode);
+  };
 
-  if (map[target - current] >= 0) {
-    return [map[target - current], i];
-  } else {
-    map[current] = i;
-    i++;
+  var add = function add(str1, str2) {
+    var result = '';
+    var temp = 0;
+    str1 = str1.split('');
+    str2 = str2.split('');
 
-    if (i < nums.length - 1) {
-      return twoSumRecursion(nums, target, i, map);
-    } else {
-      throw 'error: twoSum is not find';
+    while (str1.length || str2.length || temp) {
+      temp += ~~str1.pop() + ~~str2.pop();
+      result = temp % 10 + result;
+      temp = temp > 9;
     }
-  }
+
+    return result;
+  };
+
+  var total = add(listToStr(l1), listToStr(l2));
+  return strToList(total);
 };
 
 console.time();
-console.log(twoSum([1, 0, 2, 7, 11, 15], 9));
-console.timeEnd();
-console.time();
-console.log(twoSumMap([1, 0, 2, 7, 11, 15], 9));
-console.timeEnd();
-console.time();
-console.log(twoSumSave([1, 0, 2, 7, 11, 15], 9));
-console.timeEnd();
-console.time();
-console.log(twoSumRecursion([1, 0, 2, 7, 11, 15], 9));
+console.log('addTwoNumbers', addTwoNumbers(new ListNode(342), new ListNode(564)));
 console.timeEnd();
 },{}],"../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -262,7 +215,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54273" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60157" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -437,5 +390,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js","1-双数之和.js"], null)
-//# sourceMappingURL=/1-双数之和.5e02fc7a.js.map
+},{}]},{},["../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js","2-双数相加.js"], null)
+//# sourceMappingURL=/2-双数相加.51e52d4b.js.map
