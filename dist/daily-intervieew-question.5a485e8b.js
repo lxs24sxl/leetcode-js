@@ -117,62 +117,134 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"3-无重复字符的最长子串.js":[function(require,module,exports) {
-// 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
-// 示例 1:
-// 输入: "abcabcbb"
-// 输出: 3 
-// 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
-// 示例 2:
-// 输入: "bbbbb"
-// 输出: 1
-// 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
-// 示例 3:
-// 输入: "pwwkew"
-// 输出: 3
-// 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
-//      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
-// 来源：力扣（LeetCode）
-// 链接：https://leetcode-cn.com/problems/longest-substring-without-repeating-characters
-// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+})({"daily-intervieew-question/103-模拟实现一个localStorage.js":[function(require,module,exports) {
+'use strict'; // !window.localStorage && !function (window) {}(window)
+// !window.localStorage && !function (win) {
 
-/**
- * @param {string} s
- * @return {number}
- */
-var lengthOfLongestSubstring = function lengthOfLongestSubstring(s) {
-  if (typeof s !== 'string') return 'error parameter';
-  var max = 0;
-  var first = 0;
-  var index = false;
-  var str = '';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  for (var i = 0, len = s.length; i < len; i++) {
-    index = s.slice(first, i).indexOf(s[i]);
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-    if (index > -1) {
-      first = i + first + 1;
-    } else {
-      if (max <= i - first + 1) {
-        str = s.slice(first, i + 1);
-        max = i - first + 1;
-      }
-    }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+!function (win) {
+  var store = new Map();
+  var db;
+  var DATABASE_NAME = 'localStorage';
+  var VERSION = 1;
+  var indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
+
+  if (!indexedDB) {
+    console.log('你的浏览器不支持IndexedDB');
   }
 
-  return {
-    max: max,
-    str: str
-  };
-};
+  var request = win.indexedDB.open(DATABASE_NAME, VERSION);
 
-console.time();
-console.log(lengthOfLongestSubstring('abcdabcbb'));
-console.timeEnd();
-console.time();
-console.log(lengthOfLongestSubstring('abacdabcbb'));
-console.timeEnd();
-},{}],"../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+  request.onsuccess = function (event) {
+    db = request.result;
+    console.log('db', db);
+    console.log('数据库打开成功');
+  };
+
+  request.onupgradeneeded = function (event) {
+    db = event.target.result;
+    var objectStore;
+
+    if (!db.objectStoreNames.contains('store')) {
+      objectStore = db.createObjectStore('store', {
+        keyPath: 'key',
+        autoIncrement: true
+      });
+    }
+
+    ; // objectStore.createIndex('key', 'key', { unique: true });
+    // objectStore.createIndex('value', 'value', { unique: false });
+  };
+
+  var Storage =
+  /*#__PURE__*/
+  function () {
+    function Storage() {// this.length = 0;
+
+      _classCallCheck(this, Storage);
+    }
+
+    _createClass(Storage, [{
+      key: "clear",
+      value: function clear() {}
+    }, {
+      key: "getItem",
+      value: function getItem(key) {
+        var result;
+        return function () {
+          return read(key).then(function (res) {
+            result = res;
+            return result;
+          });
+        }();
+      }
+    }, {
+      key: "key",
+      value: function key() {}
+    }, {
+      key: "removeItem",
+      value: function removeItem() {}
+    }, {
+      key: "setItem",
+      value: function setItem(key, value) {
+        console.log('db', db);
+        var req = db.transaction(['store'], 'readwrite').objectStore('store').add({
+          key: key,
+          value: value
+        });
+
+        req.onsuccess = function (event) {
+          console.log('数据写入成功');
+        };
+
+        req.onerror = function (event) {
+          console.log('数据写入失败');
+        };
+      }
+    }, {
+      key: "length",
+      get: function get() {// return this.length
+      }
+    }]);
+
+    return Storage;
+  }();
+
+  function read(key) {
+    var transaction = db.transaction(['store']);
+    var objectStore = transaction.objectStore('store');
+    var request = objectStore.get(key);
+    return new Promise(function (resolve, reject) {
+      request.onerror = function (event) {
+        console.log('事务失败');
+        reject(event);
+      };
+
+      request.onsuccess = function (event) {
+        if (request.result) {
+          console.log('key: ' + request.result.key);
+          console.log('value: ' + request.result.value);
+          resolve(request.result);
+        } else {
+          console.log('未获得数据记录');
+          resolve(request.result);
+        }
+      };
+    });
+  }
+
+  var LocalStorage = new Storage();
+  window.LocalStorage = LocalStorage; // LocalStorage.setItem('language', 'en')
+  // console.log('LocalStorage', LocalStorage)
+}(window);
+},{}],"daily-intervieew-question/index.js":[function(require,module,exports) {
+require('./103-模拟实现一个localStorage');
+},{"./103-模拟实现一个localStorage":"daily-intervieew-question/103-模拟实现一个localStorage.js"}],"../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -200,7 +272,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62374" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62396" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -375,5 +447,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js","3-无重复字符的最长子串.js"], null)
-//# sourceMappingURL=/3-无重复字符的最长子串.4788452d.js.map
+},{}]},{},["../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js","daily-intervieew-question/index.js"], null)
+//# sourceMappingURL=/daily-intervieew-question.5a485e8b.js.map

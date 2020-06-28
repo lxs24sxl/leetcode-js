@@ -81,21 +81,21 @@ var twoSumSave = function (nums, target) {
   }
 }
 
-var twoSumRecursion = function (nums, target, i = 0, maps = {}) {
-  const map = maps;
-  let current = nums[i];
-  if (map[target - current] >= 0) {
-    return [map[target - current], i];
-  } else {
-    map[current] = i;
-    i++;
-    if (i < nums.length - 1) {
-      return twoSumRecursion(nums, target, i, map);
-    } else {
-      throw 'error: twoSum is not find'
-    }
-  }
-}
+// var twoSumRecursion = function (nums, target, i = 0, maps = {}) {
+//   const map = maps;
+//   let current = nums[i];
+//   if (map[target - current] >= 0) {
+//     return [map[target - current], i];
+//   } else {
+//     map[current] = i;
+//     i++;
+//     if (i < nums.length - 1) {
+//       return twoSumRecursion(nums, target, i, map);
+//     } else {
+//       throw 'error: twoSum is not find'
+//     }
+//   }
+// }
 
 console.time()
 console.log(twoSum([1, 0, 2, 7, 11, 15], 9))
@@ -109,6 +109,6 @@ console.time()
 console.log(twoSumSave([1, 0, 2, 7, 11, 15], 9))
 console.timeEnd()
 
-console.time()
-console.log(twoSumRecursion([1, 0, 2, 7, 11, 15], 9))
-console.timeEnd()
+// console.time()
+// console.log(twoSumRecursion([1, 0, 2, 7, 11, 15], 9))
+// console.timeEnd()

@@ -117,60 +117,45 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"3-无重复字符的最长子串.js":[function(require,module,exports) {
-// 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
-// 示例 1:
-// 输入: "abcabcbb"
-// 输出: 3 
-// 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+})({"4-寻找两个有序数组的中位数.js":[function(require,module,exports) {
+// 给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
+// 请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+// 你可以假设 nums1 和 nums2 不会同时为空。
+// 示例 1:
+// nums1 = [1, 3]
+// nums2 = [2]
+// 则中位数是 2.0
 // 示例 2:
-// 输入: "bbbbb"
-// 输出: 1
-// 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
-// 示例 3:
-// 输入: "pwwkew"
-// 输出: 3
-// 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
-//      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+// nums1 = [1, 2]
+// nums2 = [3, 4]
+// 则中位数是 (2 + 3)/2 = 2.5
 // 来源：力扣（LeetCode）
-// 链接：https://leetcode-cn.com/problems/longest-substring-without-repeating-characters
+// 链接：https://leetcode-cn.com/problems/median-of-two-sorted-arrays
 // 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 /**
- * @param {string} s
+ * @param {number[]} nums1
+ * @param {number[]} nums2
  * @return {number}
  */
-var lengthOfLongestSubstring = function lengthOfLongestSubstring(s) {
-  if (typeof s !== 'string') return 'error parameter';
-  var max = 0;
-  var first = 0;
-  var index = false;
-  var str = '';
+var findMedianSortedArrays = function findMedianSortedArrays(nums1, nums2) {
+  var arr = Array.from(new Set(nums1.concat(nums2))).sort();
+  var len = arr.length;
+  var start = 0;
+  var end = 0;
 
-  for (var i = 0, len = s.length; i < len; i++) {
-    index = s.slice(first, i).indexOf(s[i]);
-
-    if (index > -1) {
-      first = i + first + 1;
-    } else {
-      if (max <= i - first + 1) {
-        str = s.slice(first, i + 1);
-        max = i - first + 1;
-      }
-    }
+  if (len % 2) {
+    start = end = (len + 1) / 2 - 1;
+  } else {
+    end = len / 2;
+    start = end - 1;
   }
 
-  return {
-    max: max,
-    str: str
-  };
+  return ((arr[start] + arr[end]) / 2).toFixed(1);
 };
 
 console.time();
-console.log(lengthOfLongestSubstring('abcdabcbb'));
-console.timeEnd();
-console.time();
-console.log(lengthOfLongestSubstring('abacdabcbb'));
+console.log(findMedianSortedArrays([1, 3], [2]));
 console.timeEnd();
 },{}],"../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -375,5 +360,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js","3-无重复字符的最长子串.js"], null)
-//# sourceMappingURL=/3-无重复字符的最长子串.4788452d.js.map
+},{}]},{},["../../../../usr/local/lib/node_modules/parcel/src/builtins/hmr-runtime.js","4-寻找两个有序数组的中位数.js"], null)
+//# sourceMappingURL=/4-寻找两个有序数组的中位数.133ecee1.js.map
