@@ -15,7 +15,7 @@
 // 链接：https://leetcode-cn.com/problems/add-two-numbers
 // 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
-function ListNode(val) {
+function ListNode (val) {
   this.val = val;
   this.next = null;
 }
@@ -31,7 +31,7 @@ var addTwoNumbers = function (l1, l2) {
   const listToStr = (list) => {
     let str = '';
     let val = '';
-    while(list) {
+    while (list) {
       val = list.val;
       list = list.next || null;
       str += val
@@ -49,20 +49,20 @@ var addTwoNumbers = function (l1, l2) {
     }, listNode)
   }
 
-  
+
   const add = (str1, str2) => {
     let result = '';
     let temp = 0;
     str1 = str1.split('');
     str2 = str2.split('');
-    while(str1.length || str2.length || temp) {
+    while (str1.length || str2.length || temp) {
       temp += ~~str1.pop() + ~~str2.pop();
       result = temp % 10 + result;
       temp = temp > 9;
     }
     return result
   }
-  
+
   let total = add(listToStr(l1), listToStr(l2))
   return strToList(total)
 }
@@ -70,3 +70,39 @@ var addTwoNumbers = function (l1, l2) {
 console.time()
 console.log('addTwoNumbers', addTwoNumbers(new ListNode(342), new ListNode(564)))
 console.timeEnd()
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+// /**
+//  * @param {ListNode} l1
+//  * @param {ListNode} l2
+//  * @return {ListNode}
+//  */
+// var addTwoNumbers = function(l1, l2) {
+//   let result = new ListNode(0);
+//   let node = result;
+//   let temp = 0;
+//   let isAdd = 0;
+//   while (l1 || l2) {
+//       temp = (l1 ? l1.val: 0) +  (l2 ? l2.val: 0)+ isAdd;
+
+//       node.next = new ListNode(temp % 10);
+
+//       isAdd = Math.floor(temp / 10);
+
+//       node = node.next;
+//       l1 && (l1 = l1.next)
+//       l2 && (l2 = l2.next)
+//   }
+
+//   if (isAdd) {
+//       node.next = new ListNode(isAdd);
+//   }
+
+//   return result.next;
+// };
