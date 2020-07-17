@@ -1,0 +1,19 @@
+{
+  "name": "leetcode",
+  "version": "1.0.1",
+  "description": "",
+  "main": "1-双数之和.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lxs24sxl/leetcode-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lxs24sxl/leetcode-js/issues"
+  },
+  "homepage": "https://github.com/lxs24sxl/leetcode-js#readme"
+}
